@@ -34,11 +34,6 @@ namespace plugins
     Q_OBJECT
   };
 
-  class PlottingInterface : public QObject
-  {
-    Q_OBJECT
-  };
-
 }
 }
 }

@@ -13,37 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
-*/
+ */
 
-#ifndef IGNITION_GUI_PLUGINS_TRANSPORTTOPICS_HH_
-#define IGNITION_GUI_PLUGINS_TRANSPORTTOPICS_HH_
-
-#include <QStandardItemModel>
-
-#include <ignition/gui/Application.hh>
 #include <ignition/gui/PlottingInterface.hh>
 
-#include "ignition/gui/Plugin.hh"
+using namespace ignition;
+using namespace gui;
 
-namespace ignition
+/////////////////////////////////////////////////
+PlottingInterface::PlottingInterface() : QObject()
 {
-namespace gui
-{
-namespace plugins
-{
-  class TransportTopicsPrivate;
 
-  class TransportTopics : public Plugin
-  {
-
-  };
-
-  class TopicsModel : public QStandardItemModel
-  {
-
-  };
-}
-}
 }
 
-#endif
+/////////////////////////////////////////////////
+PlottingInterface::~PlottingInterface()
+{
+}
+
+/////////////////////////////////////////////////
+void PlottingInterface::emitPlotting(int _chart, float _x , QVariant _y)
+{
+    emit plot(_chart , _x , _y);
+}

@@ -10,7 +10,15 @@ using namespace ignition;
 using namespace gui;
 
 KeyPlugin::KeyPlugin(): Plugin()
-{};
+{
+  std::cout << "constructor_exec" << std::endl;
+  ignition::gui::App()->findChild
+      <ignition::gui::MainWindow *>()->installEventFilter(this);
+      /*
+      [BUG] Segmentation fault at 0x0000000000000008
+      because different ruby version not compatible
+      */
+};
 
 
 /////////////////////////////////////////////////
@@ -26,19 +34,26 @@ void KeyPlugin::LoadConfig(const tinyxml2::XMLElement *_pluginElem)
     this->title = "Key tool";
     // https://doc.qt.io/qt-5/qobject.html#findChild
     ignition::gui::App()->findChild
-      <ignition::gui::MainWindow *>()->installEventFilter(this);
+      <ignition::gui::MainWindow *>()->QuickWindow()->installEventFilter(this);
 }
 
 
 
-bool KeyPlugin::eventFilter(QObject *_obj, QKeyEvent * event)
+bool KeyPlugin::eventFilter(QObject *_obj, QEvent *_event)
 {
-    if (event->type() == QEvent::KeyPress)
+  /*
+  todo: to get specif keys
+  if( QString("1234567890").indexOf( keyEvent->text() ) != -1 )
+  */
+    if (_event->type() == QEvent::KeyPress)
     {
-        std::cout << "key_pressed" << std::endl;
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(_event);
+        QString s = keyEvent->text();
+        std::string utf8_text = s.toUtf8().constData();
+        std::cout << utf8_text << std::endl;
         return true;
     }
-    return QObject::eventFilter(_obj, event);
+    return QObject::eventFilter(_obj, _event);
 }
 
 void KeyPlugin::sayhello()

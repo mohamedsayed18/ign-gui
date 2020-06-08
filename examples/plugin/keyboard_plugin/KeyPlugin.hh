@@ -24,9 +24,7 @@ namespace ignition
         public: virtual ~KeyPlugin();   //destructor
         
         public: virtual void LoadConfig(const tinyxml2::XMLElement *_pluginElem) override;
-        protected: bool eventFilter(QObject *_obj, QKeyEvent * event); 
-        //I removed override, errorr: marked ‘override’, but does not override 
-
+        protected: bool eventFilter(QObject *_obj, QEvent *_event) override;
         protected slots: void sayhello();
     };
   }

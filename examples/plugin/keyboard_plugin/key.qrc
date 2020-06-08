@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+  <qresource prefix="KeyPlugin/">
+    <file>KeyPlugin.qml</file>
+  </qresource>
+</RCC>

@@ -3,7 +3,7 @@
 #include <ignition/gui/Application.hh>
 #include <ignition/gui/MainWindow.hh>
 #include <ignition/plugin/Register.hh>
-#include <ignition/msgs/twist.pb.h>
+#include <ignition/msgs/Int32.pb.h>
 
 #include "KeyPlugin.hh"
 
@@ -12,7 +12,7 @@ using namespace gui;
 
 KeyPlugin::KeyPlugin(): Plugin()
 {
-  pub = node.Advertise<ignition::msgs::Twist>(topic);
+  pub = node.Advertise<ignition::msgs::Int32>(topic);
 }
 
 
@@ -72,7 +72,7 @@ void KeyPlugin::keyloop(QKeyEvent *key_press)
   }
 
   
-  ignition::msgs::Twist cmdVelMsg;  
+  ignition::msgs::Int32 cmdVelMsg;  
   cmdVelMsg.mutable_linear()->set_x(linear);
   cmdVelMsg.mutable_angular()->set_z(angular);
   pub.Publish(cmdVelMsg);

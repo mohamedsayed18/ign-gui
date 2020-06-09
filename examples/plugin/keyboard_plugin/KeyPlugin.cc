@@ -3,9 +3,6 @@
 #include <ignition/gui/Application.hh>
 #include <ignition/gui/MainWindow.hh>
 #include <ignition/plugin/Register.hh>
-
-#include <ignition/msgs.hh>
-#include <ignition/transport.hh>
 #include <ignition/msgs/twist.pb.h>
 
 #include "KeyPlugin.hh"
@@ -19,7 +16,6 @@ KeyPlugin::KeyPlugin(): Plugin()
 }
 
 
-/////////////////////////////////////////////////
 KeyPlugin::~KeyPlugin()
 {}
 
@@ -29,7 +25,6 @@ void KeyPlugin::LoadConfig(const tinyxml2::XMLElement *_pluginElem)
   //it loads the XML file which contains the UI file of Qt
   if (this->title.empty())
     this->title = "Key tool";
-    // https://doc.qt.io/qt-5/qobject.html#findChild
     ignition::gui::App()->findChild
       <ignition::gui::MainWindow *>()->QuickWindow()->installEventFilter(this);
 }
@@ -38,14 +33,6 @@ void KeyPlugin::LoadConfig(const tinyxml2::XMLElement *_pluginElem)
 
 bool KeyPlugin::eventFilter(QObject *_obj, QEvent *_event)
 {
-  /*
-  todo: to get specif keys
-  if( QString("1234567890").indexOf( keyEvent->text() ) != -1 )
-  */
-    // Prepare the message.
-    ignition::msgs::StringMsg msg;
-    msg.set_data("HELLO");
-
     if (_event->type() == QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(_event);

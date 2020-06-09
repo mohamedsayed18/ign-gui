@@ -4,6 +4,9 @@
 #include <ignition/gui/MainWindow.hh>
 #include <ignition/plugin/Register.hh>
 
+#include <ignition/msgs.hh>
+#include <ignition/transport.hh>
+
 #include "KeyPlugin.hh"
 
 using namespace ignition;
@@ -11,19 +14,23 @@ using namespace gui;
 
 KeyPlugin::KeyPlugin(): Plugin()
 {
-  std::cout << "constructor_exec" << std::endl;
-  ignition::gui::App()->findChild
-      <ignition::gui::MainWindow *>()->installEventFilter(this);
-      /*
-      [BUG] Segmentation fault at 0x0000000000000008
-      because different ruby version not compatible
-      */
-};
+  // Create a transport node and advertise a topic.
+  /*
+  ignition::transport::Node node;
+  std::string topic = "/foo";
+  auto pub = node.Advertise<ignition::msgs::StringMsg>(topic);
+  if (!pub)
+  {
+    std::cerr << "Error advertising topic [" << topic << "]" << std::endl;
+  }
+  */
+  pub = node.Advertise<ignition::msgs::StringMsg>(topic);
+}
 
 
 /////////////////////////////////////////////////
 KeyPlugin::~KeyPlugin()
-{};
+{}
 
 
 void KeyPlugin::LoadConfig(const tinyxml2::XMLElement *_pluginElem)
@@ -45,12 +52,17 @@ bool KeyPlugin::eventFilter(QObject *_obj, QEvent *_event)
   todo: to get specif keys
   if( QString("1234567890").indexOf( keyEvent->text() ) != -1 )
   */
+    // Prepare the message.
+    ignition::msgs::StringMsg msg;
+    msg.set_data("HELLO");
+
     if (_event->type() == QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(_event);
         QString s = keyEvent->text();
         std::string utf8_text = s.toUtf8().constData();
         std::cout << utf8_text << std::endl;
+        KeyPlugin::pub.Publish(msg);
         return true;
     }
     return QObject::eventFilter(_obj, _event);

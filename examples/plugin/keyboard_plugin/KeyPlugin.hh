@@ -36,6 +36,7 @@ namespace ignition
           ignition::transport::Node node;
           std::string topic = "/foo";
           ignition::transport::Node::Publisher pub ;
+          ignition::msgs::Twist cmdVelMsg; // the command velocity
     };
   }
 }

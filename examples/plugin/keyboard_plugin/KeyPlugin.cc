@@ -6,6 +6,7 @@
 
 #include <ignition/msgs.hh>
 #include <ignition/transport.hh>
+#include <ignition/msgs/twist.pb.h>
 
 #include "KeyPlugin.hh"
 
@@ -24,7 +25,9 @@ KeyPlugin::KeyPlugin(): Plugin()
     std::cerr << "Error advertising topic [" << topic << "]" << std::endl;
   }
   */
-  pub = node.Advertise<ignition::msgs::StringMsg>(topic);
+  pub = node.Advertise<ignition::msgs::Twist>(topic);
+  cmdVelMsg.mutable_linear()->set_x(1.0);
+  cmdVelMsg.mutable_angular()->set_z(1.0);
 }
 
 
@@ -62,7 +65,7 @@ bool KeyPlugin::eventFilter(QObject *_obj, QEvent *_event)
         QString s = keyEvent->text();
         std::string utf8_text = s.toUtf8().constData();
         std::cout << utf8_text << std::endl;
-        KeyPlugin::pub.Publish(msg);
+        KeyPlugin::pub.Publish(cmdVelMsg);
         return true;
     }
     return QObject::eventFilter(_obj, _event);

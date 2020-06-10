@@ -3,7 +3,7 @@
 #include <ignition/gui/Application.hh>
 #include <ignition/gui/MainWindow.hh>
 #include <ignition/plugin/Register.hh>
-#include <ignition/msgs/Int32.pb.h>
+#include <ignition/msgs/int32.pb.h>
 
 #include "KeyPlugin.hh"
 
@@ -47,35 +47,10 @@ void KeyPlugin::keyloop(QKeyEvent *key_press)
 {
   /*
   https://doc.qt.io/archives/qtjambi-4.5.2_01/com/trolltech/qt/core/Qt.Key.html
-  */
-  double linear = 0;
-  double angular = 0;
-  if(key_press->key() == Qt::Key_Up)
-  {
-    linear = 1.0;
-    std::cout << "UP" << std::endl;
-  }
-  else if (key_press->key() == Qt::Key_Down)
-  {
-    linear = -1.0;
-    std::cout << "Down" << std::endl;
-  }
-  else if (key_press->key() == Qt::Key_Right)
-  {
-    angular = -1.0;
-    std::cout << "RIGHT" << std::endl;
-  }
-  else if (key_press->key() == Qt::Key_Left)
-  {
-    angular = 1.0;
-    std::cout << "LEFT" << std::endl;
-  }
-
-  
-  ignition::msgs::Int32 cmdVelMsg;  
-  cmdVelMsg.mutable_linear()->set_x(linear);
-  cmdVelMsg.mutable_angular()->set_z(angular);
-  pub.Publish(cmdVelMsg);
+  */ 
+  ignition::msgs::Int32 Msg;
+  Msg.set_data(key_press->key());
+  pub.Publish(Msg);
 }
 
 

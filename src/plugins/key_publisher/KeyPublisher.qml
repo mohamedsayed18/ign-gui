@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Open Source Robotics Foundation
+ * Copyright (C) 2020 Open Source Robotics Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,12 @@
  *
 */
 
-#include <gtest/gtest.h>
+import QtQuick 2.0
+import QtQuick.Controls 2.0
 
-#include "ignition/gui/Iface.hh"
-
-using namespace ignition;
-using namespace gui;
-
-/////////////////////////////////////////////////
-TEST(ResponderTest, Load)
-{
-  EXPECT_TRUE(initApp());
-
-  EXPECT_TRUE(loadPlugin("Responder"));
-
-  EXPECT_TRUE(stop());
+Rectangle {
+    visible: false
+    width: 100
+    height: 100
 }
+
